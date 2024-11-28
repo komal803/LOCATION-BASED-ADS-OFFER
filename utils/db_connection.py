@@ -1,12 +1,19 @@
 import sqlite3
+import os
 
 def create_connection():
-    """Create a database connection."""
-    conn = sqlite3.connect('database.sqlite')
+    """
+    Create a connection to the SQLite database.
+    Ensures that the database.sqlite file is located in the project root directory.
+    """
+    db_path = os.path.join(os.path.dirname(__file__), '..', 'database.sqlite')
+    conn = sqlite3.connect(db_path)
     return conn
 
 def initialize_database():
-    """Create the necessary tables in the database."""
+    """
+    Create the necessary tables in the SQLite database if they don't already exist.
+    """
     conn = create_connection()
     cursor = conn.cursor()
 
@@ -47,5 +54,16 @@ def initialize_database():
     conn.commit()
     conn.close()
 
+def debug_database():
+    """
+    Debug function to print the names of all tables in the database.
+    """
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print("Tables in the database:", cursor.fetchall())
+    conn.close()
+
 if __name__ == "__main__":
     initialize_database()
+    debug_database()
