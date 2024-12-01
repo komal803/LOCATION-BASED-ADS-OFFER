@@ -1,6 +1,37 @@
 from models.geofence import Geofence
 from models.ad import Ad
 
+from utils.geofence_logic import is_within_geofence, get_relevant_ads
+
+def test_is_within_geofence():
+    """
+    Test if a user's location is correctly identified as being within or outside a geofence.
+    """
+    user_location = (40.730610, -73.935242)  # New York City
+    geofence_location = (40.7128, -74.0060)  # Geofence: Lower Manhattan
+    radius_km = 5.0
+
+    # Case 1: User is outside the geofence
+    assert is_within_geofence(user_location, geofence_location, radius_km) == False, "User should be outside the geofence"
+    print("User is correctly identified as outside the geofence.")
+
+    # Case 2: Adjust the radius to include the user
+    radius_km = 7.0
+    assert is_within_geofence(user_location, geofence_location, radius_km) == True, "User should be within the geofence"
+    print("User is correctly identified as within the geofence.")
+
+
+
+def test_get_relevant_ads():
+    """
+    Test fetching relevant ads based on user location.
+    """
+    user_location = (40.7128, -74.0060)  # User is in the Lower Manhattan geofence
+    ads = get_relevant_ads(user_location)
+
+    assert len(ads) > 0, "No ads found for the user's location."
+    print("Relevant ads:", ads)
+
 def test_geofence_creation():
     """
     Testing the creation of a geofence and saving to the database.
@@ -31,3 +62,5 @@ if __name__ == "__main__":
     test_geofence_creation()
     test_ad_creation()
     test_fetch_geofences_and_ads()
+    test_is_within_geofence()
+    test_get_relevant_ads()
