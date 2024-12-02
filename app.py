@@ -3,7 +3,7 @@ from tkinter import messagebox
 from models.user import User
 from models.geofence import Geofence
 from models.ad import Ad
-from utils.geofence_logic import get_relevant_ads
+from utils.geofence_logic import get_relevant_ads  
 
 class LocationBasedAdsApp:
     def __init__(self):
