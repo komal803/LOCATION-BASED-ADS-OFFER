@@ -130,6 +130,82 @@ class LocationBasedAdsApp:
         self.root.mainloop()
 
 
+import random
+import time
+
+class LocationBasedAdsApp:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title("Location-Based Ads & Offers")
+
+        # Logged-in user ID
+        self.logged_in_user_id = None
+
+        # Create a notebook (tabbed widget)
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill=tk.BOTH, expand=True)
+
+        # Create tabs
+        self.customer_tab = ttk.Frame(self.notebook)
+        self.admin_tab = ttk.Frame(self.notebook)
+        self.demo_tab = ttk.Frame(self.notebook)
+
+        # Add tabs to the notebook
+        self.notebook.add(self.customer_tab, text="Customer")
+        self.notebook.add(self.admin_tab, text="Admin")
+        self.notebook.add(self.demo_tab, text="Demo")
+
+        self.create_login_screen()
+
+    def create_login_screen(self):
+        """
+        Create the login screen for both business and personal users.
+        """
+        self.clear_window(self.customer_tab)
+        self.clear_window(self.admin_tab)
+        self.clear_window(self.demo_tab)
+
+        tk.Label(self.customer_tab, text="Location-Based Ads", font=("Arial", 16)).pack(pady=10)
+
+        tk.Label(self.customer_tab, text="Email:").pack()
+        self.email_entry = tk.Entry(self.customer_tab)
+        self.email_entry.pack(pady=5)
+
+        tk.Label(self.customer_tab, text="Password:").pack()
+        self.password_entry = tk.Entry(self.customer_tab, show="*")
+        self.password_entry.pack(pady=5)
+
+        tk.Label(self.customer_tab, text="Login as:").pack()
+        self.user_type_var = tk.StringVar(value="business")
+        tk.Radiobutton(self.customer_tab, text="Business", variable=self.user_type_var, value="business").pack()
+        tk.Radiobutton(self.customer_tab, text="Personal", variable=self.user_type_var, value="personal").pack()
+
+        tk.Button(self.customer_tab, text="Login", command=self.login).pack(pady=10)
+
+    def login(self):
+        """
+        Handle login for business and personal users.
+        """
+        email = self.email_entry.get()
+        password = self.password_entry.get()
+        user_type = self.user_type_var.get()
+
+        user = User.login(email, password)
+        if user and user[4] == user_type:  # user[4] is the user_type
+            self.logged_in_user_id = user[0]  # user[0] is the user ID
+            messagebox.showinfo("Success", f"Welcome, {user[1]}!")  # user[1] is the username
+
+            if user_type == "business":
+                self.create_customer_dashboard()
+            elif user_type == "personal":
+                self.create_admin_dashboard()
+        else:
+            messagebox.showerror("Error", "Invalid credentials or user type.")
+
+
+
+
+
 if __name__ == "__main__":
     app = LocationBasedAdsApp()
     app.run()
