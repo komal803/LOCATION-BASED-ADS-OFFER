@@ -224,7 +224,25 @@ class LocationBasedAdsApp:
         tk.Button(self.root, text="Login", command=self.login).pack(pady=10)
 
 
+    def login(self):
+        """
+        Handle login for business and personal users.
+        """
+        email = self.email_entry.get()
+        password = self.password_entry.get()
+        user_type = self.user_type_var.get()
 
+        user = User.login(email, password)
+        if user and user[4] == user_type:  # user[4] is the user_type
+            self.logged_in_user_id = user[0]  # user[0] is the user ID
+            messagebox.showinfo("Success", f"Welcome, {user[1]}!")  # user[1] is the username
+
+            if user_type == "business":
+                self.create_business_dashboard()
+            elif user_type == "personal":
+                self.create_personal_user_dashboard()
+        else:
+            messagebox.showerror("Error", "Invalid credentials or user type.")
 
 
 if __name__ == "__main__":
