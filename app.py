@@ -4,6 +4,7 @@ from models.user import User
 from models.geofence import Geofence
 from models.ad import Ad
 from utils.geofence_logic import get_relevant_ads
+from utils.db_connection import create_connection
 
 class LocationBasedAdsApp:
     def __init__(self):
@@ -86,15 +87,94 @@ class LocationBasedAdsApp:
 
     def add_geofence_and_ad(self):
         """
-        Placeholder for adding geofence and ad.
+        Allow business users to add geofences and ads.
         """
-        messagebox.showinfo("Coming Soon", "Add Geofence and Ad functionality will be implemented.")
+        self.clear_window()
+        tk.Label(self.root, text="Add Geofence and Ad", font=("Arial", 16)).pack(pady=10)
+
+        # Geofence Inputs
+        tk.Label(self.root, text="Geofence Center (latitude, longitude):").pack(pady=5)
+        self.geo_lat_entry = tk.Entry(self.root)
+        self.geo_lat_entry.pack(pady=5)
+        self.geo_lon_entry = tk.Entry(self.root)
+        self.geo_lon_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Radius (km):").pack(pady=5)
+        self.geo_radius_entry = tk.Entry(self.root)
+        self.geo_radius_entry.pack(pady=5)
+
+        # Ad Inputs
+        tk.Label(self.root, text="Ad Title:").pack(pady=5)
+        self.ad_title_entry = tk.Entry(self.root)
+        self.ad_title_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Ad Description:").pack(pady=5)
+        self.ad_description_entry = tk.Entry(self.root)
+        self.ad_description_entry.pack(pady=5)
+
+        tk.Button(self.root, text="Add", command=self.save_geofence_and_ad).pack(pady=10)
+        tk.Button(self.root, text="Back to Dashboard", command=self.create_business_dashboard).pack(pady=5)
+
+    def save_geofence_and_ad(self):
+        """
+        Save the geofence and associated ad to the database.
+        """
+        try:
+            # Geofence Inputs
+            latitude = float(self.geo_lat_entry.get())
+            longitude = float(self.geo_lon_entry.get())
+            radius_km = float(self.geo_radius_entry.get())
+
+            # Ad Inputs
+            ad_title = self.ad_title_entry.get()
+            ad_description = self.ad_description_entry.get()
+
+            # Save Geofence
+            geofence = Geofence(self.logged_in_user_id, latitude, longitude, radius_km)
+            geofence.save_to_db()
+
+            # Fetch the ID of the newly created geofence
+            conn = create_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT last_insert_rowid()")
+            geofence_id = cursor.fetchone()[0]
+            conn.close()
+
+            # Save Ad
+            ad = Ad(geofence_id, ad_title, ad_description)
+            ad.save_to_db()
+
+            messagebox.showinfo("Success", "Geofence and Ad added successfully!")
+            self.create_business_dashboard()
+        except ValueError:
+            messagebox.showerror("Input Error", "Please enter valid geofence and ad details.")
 
     def view_geofences_and_ads(self):
         """
-        Placeholder for viewing geofences and ads.
+        Display all geofences and ads created by the business user.
         """
-        messagebox.showinfo("Coming Soon", "View Geofences and Ads functionality will be implemented.")
+        self.clear_window()
+        tk.Label(self.root, text="Your Geofences and Ads", font=("Arial", 16)).pack(pady=10)
+
+        # Fetch Geofences and Ads
+        geofences = Geofence.get_all_geofences()
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        for geofence in geofences:
+            if geofence[1] == self.logged_in_user_id:  # Only show geofences created by this user
+                tk.Label(self.root, text=f"Geofence ID: {geofence[0]}").pack()
+                tk.Label(self.root, text=f"Center: ({geofence[2]}, {geofence[3]})").pack()
+                tk.Label(self.root, text=f"Radius: {geofence[4]} km").pack()
+
+                # Fetch ads for this geofence
+                ads = Ad.get_ads_by_geofence(geofence[0])
+                for ad in ads:
+                    tk.Label(self.root, text=f"    Ad Title: {ad[2]}").pack()
+                    tk.Label(self.root, text=f"    Description: {ad[3]}").pack()
+                tk.Label(self.root, text="").pack()  # Blank line for spacing
+
+        tk.Button(self.root, text="Back to Dashboard", command=self.create_business_dashboard).pack(pady=10)
 
     def check_for_offers(self):
         """
