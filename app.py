@@ -158,10 +158,91 @@ class LocationBasedAdsApp:
         self.create_login_screen() 
 
 
+    def create_login_screen(self):
+        """
+        Create the login screen for both business and personal users.
+        """
+        self.clear_window(self.customer_tab)
+        self.clear_window(self.admin_tab)
+        self.clear_window(self.demo_tab)
+
+        tk.Label(self.customer_tab, text="Location-Based Ads", font=("Arial", 16)).pack(pady=10)
+
+        tk.Label(self.customer_tab, text="Email:").pack()
+        self.email_entry = tk.Entry(self.customer_tab)
+        self.email_entry.pack(pady=5)
+
+        tk.Label(self.customer_tab, text="Password:").pack()
+        self.password_entry = tk.Entry(self.customer_tab, show="*")
+        self.password_entry.pack(pady=5)
+
+        tk.Label(self.customer_tab, text="Login as:").pack()
+        self.user_type_var = tk.StringVar(value="business")
+        tk.Radiobutton(self.customer_tab, text="Business", variable=self.user_type_var, value="business").pack()
+        tk.Radiobutton(self.customer_tab, text="Personal", variable=self.user_type_var, value="personal").pack()
+
+        tk.Button(self.customer_tab, text="Login", command=self.login).pack(pady=10)
 
 
+import tkinter as tk
+from tkinter import messagebox
+from models.user import User
+from models.geofence import Geofence
+from models.ad import Ad
+from utils.geofence_logic import get_relevant_ads
+
+class LocationBasedAdsApp:
+    def _init_(self):
+        self.root = tk.Tk()
+        self.root.title("Location-Based Ads & Offers")
+
+        # Logged-in user ID
+        self.logged_in_user_id = None
+
+        self.create_login_screen()
+
+    def create_login_screen(self):
+        """
+        Create the login screen for both business and personal users.
+        """
+        self.clear_window()
+        tk.Label(self.root, text="Location-Based Ads", font=("Arial", 16)).pack(pady=10)
+
+        tk.Label(self.root, text="Email:").pack()
+        self.email_entry = tk.Entry(self.root)
+        self.email_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Password:").pack()
+        self.password_entry = tk.Entry(self.root, show="*")
+        self.password_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Login as:").pack()
+        self.user_type_var = tk.StringVar(value="business")
+        tk.Radiobutton(self.root, text="Business", variable=self.user_type_var, value="business").pack()
+        tk.Radiobutton(self.root, text="Personal", variable=self.user_type_var, value="personal").pack()
+
+        tk.Button(self.root, text="Login", command=self.login).pack(pady=10)
 
 
+    def login(self):
+        """
+        Handle login for business and personal users.
+        """
+        email = self.email_entry.get()
+        password = self.password_entry.get()
+        user_type = self.user_type_var.get()
+
+        user = User.login(email, password)
+        if user and user[4] == user_type:  # user[4] is the user_type
+            self.logged_in_user_id = user[0]  # user[0] is the user ID
+            messagebox.showinfo("Success", f"Welcome, {user[1]}!")  # user[1] is the username
+
+            if user_type == "business":
+                self.create_business_dashboard()
+            elif user_type == "personal":
+                self.create_personal_user_dashboard()
+        else:
+            messagebox.showerror("Error", "Invalid credentials or user type.")
 
 
 if __name__ == "__main__":
