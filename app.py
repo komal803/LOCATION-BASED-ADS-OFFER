@@ -42,6 +42,67 @@ class LocationBasedAdsApp:
         tk.Radiobutton(self.root, text="Personal", variable=self.user_type_var, value="personal").pack()
 
         tk.Button(self.root, text="Login", command=self.login).pack(pady=10)
+        tk.Button(self.root, text="Sign Up", command=self.create_signup_screen).pack(pady=5)
+
+    def create_signup_screen(self):
+        """
+        Create the signup screen for new users.
+        """
+        self.clear_window()
+        tk.Label(self.root, text="Sign Up", font=("Arial", 16)).pack(pady=10)
+
+        tk.Label(self.root, text="Name:").pack()
+        self.signup_name_entry = tk.Entry(self.root)
+        self.signup_name_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Email:").pack()
+        self.signup_email_entry = tk.Entry(self.root)
+        self.signup_email_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Password:").pack()
+        self.signup_password_entry = tk.Entry(self.root, show="*")
+        self.signup_password_entry.pack(pady=5)
+
+        tk.Label(self.root, text="Sign up as:").pack()
+        self.signup_user_type_var = tk.StringVar(value="business")
+        tk.Radiobutton(self.root, text="Business", variable=self.signup_user_type_var, value="business").pack()
+        tk.Radiobutton(self.root, text="Personal", variable=self.signup_user_type_var, value="personal").pack()
+
+        tk.Button(self.root, text="Register", command=self.signup).pack(pady=10)
+        tk.Button(self.root, text="Back to Login", command=self.create_login_screen).pack(pady=5)
+
+    def signup(self):
+        """
+        Handle user signup and save to the database.
+        """
+        name = self.signup_name_entry.get()
+        email = self.signup_email_entry.get()
+        password = self.signup_password_entry.get()
+        user_type = self.signup_user_type_var.get()
+
+        if not name or not email or not password:
+            messagebox.showerror("Input Error", "All fields are required.")
+            return
+
+        # Check if the email already exists
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+        existing_user = cursor.fetchone()
+        conn.close()
+
+        if existing_user:
+            messagebox.showerror("Error", "Email already registered. Please log in.")
+            return
+
+        # Save the new user
+        try:
+            new_user = User(name, email, password, user_type)
+            new_user.save_to_db()
+            messagebox.showinfo("Success", "User registered successfully! Please log in.")
+            self.create_login_screen()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to register user: {e}")
 
     def login(self):
         """
