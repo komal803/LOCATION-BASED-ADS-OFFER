@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bad0c173-998a-4e66-9142-0555ed3c6bf2" name="Changes" comment="here i have defined the gefence logic and implemented basic gui for the login for business and personal user">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite" afterDir="false" />
     </list>
@@ -41,22 +42,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.ad.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.db_connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geofence.executor&quot;: &quot;Run&quot;,
-    &quot;Python.geofence_logic.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_geofencing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_user.executor&quot;: &quot;Run&quot;,
-    &quot;Python.user.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.ad.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.create_personal_user.executor": "Run",
+    "Python.db_connection.executor": "Run",
+    "Python.geofence.executor": "Run",
+    "Python.geofence_logic.executor": "Run",
+    "Python.test_geofencing.executor": "Run",
+    "Python.test_user.executor": "Run",
+    "Python.user.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "settings.editor.selected.configurable": "preferences.fileTypes"
   }
-}</component>
-  <component name="RunManager" selected="Python.db_connection">
+}]]></component>
+  <component name="RunManager">
     <configuration name="db_connection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="LOCATION-BASED-ADS-OFFER" />
       <option name="ENV_FILES" value="" />
@@ -171,7 +173,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733012346608</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="here i have defined the gefence logic and implemented basic gui for the login for business and personal user">
+      <option name="closed" value="true" />
+      <created>1733513584917</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733513584917</updated>
+    </task>
+    <task id="LOCAL-00005" summary="here i have defined the gefence logic and implemented basic gui for the login for business and personal user">
+      <option name="closed" value="true" />
+      <created>1733513640750</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733513640750</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

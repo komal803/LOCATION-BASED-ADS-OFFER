@@ -5,6 +5,11 @@ from models.geofence import Geofence
 from models.ad import Ad
 from utils.geofence_logic import get_relevant_ads
 from utils.db_connection import create_connection
+import threading
+import time
+from random import uniform
+
+
 
 class LocationBasedAdsApp:
     def __init__(self):
@@ -75,6 +80,7 @@ class LocationBasedAdsApp:
         self.clear_window()
         tk.Label(self.root, text="Personal User Dashboard", font=("Arial", 16)).pack(pady=10)
 
+        # Enter location manually
         tk.Label(self.root, text="Enter Your Current Location (latitude, longitude):").pack(pady=5)
         self.latitude_entry = tk.Entry(self.root)
         self.latitude_entry.pack(pady=5)
@@ -82,6 +88,10 @@ class LocationBasedAdsApp:
         self.longitude_entry.pack(pady=5)
 
         tk.Button(self.root, text="Check for Offers", command=self.check_for_offers).pack(pady=10)
+
+        # Simulate user movement
+        tk.Button(self.root, text="Simulate Movement", command=self.simulate_user_movement).pack(pady=5)
+
         self.offers_text = tk.Text(self.root, width=50, height=15)
         self.offers_text.pack(pady=5)
 
@@ -178,15 +188,17 @@ class LocationBasedAdsApp:
 
     def check_for_offers(self):
         """
-        Check for relevant ads based on the user's location.
+        Check for relevant ads based on the user's location using geofencing logic.
         """
         try:
+            # Get user input for current location
             user_lat = float(self.latitude_entry.get())
             user_lon = float(self.longitude_entry.get())
             user_location = (user_lat, user_lon)
 
+            # Fetch relevant ads
             ads = get_relevant_ads(user_location)
-            self.offers_text.delete("1.0", tk.END)
+            self.offers_text.delete("1.0", tk.END)  # Clear previous offers
 
             if ads:
                 for ad in ads:
@@ -209,6 +221,35 @@ class LocationBasedAdsApp:
         """
         self.root.mainloop()
 
+    def simulate_user_movement(self):
+        """
+        Simulate a user moving through random locations.
+        """
+        tk.Label(self.root, text="Simulated Movement Active", fg="blue").pack(pady=5)
+
+        def move():
+            while True:
+                # Randomly generate new user location
+                user_lat = uniform(40.7000, 40.8000)  # Latitude range near NYC
+                user_lon = uniform(-74.1000, -73.9000)  # Longitude range near NYC
+                user_location = (user_lat, user_lon)
+
+                # Fetch relevant ads
+                ads = get_relevant_ads(user_location)
+                self.offers_text.delete("1.0", tk.END)  # Clear previous offers
+
+                if ads:
+                    for ad in ads:
+                        self.offers_text.insert(tk.END,
+                                                f"Ad Title: {ad['title']}\nDescription: {ad['description']}\n\n")
+                else:
+                    self.offers_text.insert(tk.END, "No offers available in your area.\n")
+
+                # Wait for 5 seconds before the next movement
+                time.sleep(5)
+
+        # Run movement simulation in a separate thread
+        threading.Thread(target=move, daemon=True).start()
 
 if __name__ == "__main__":
     app = LocationBasedAdsApp()
