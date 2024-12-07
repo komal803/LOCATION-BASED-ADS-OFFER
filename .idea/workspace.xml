@@ -4,10 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bad0c173-998a-4e66-9142-0555ed3c6bf2" name="Changes" comment="here i have defined the gefence logic and implemented basic gui for the login for business and personal user">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/database.sqlite" afterDir="false" />
+    <list default="true" id="bad0c173-998a-4e66-9142-0555ed3c6bf2" name="Changes" comment="added automatic location detection of personal user">
+      <change beforePath="$PROJECT_DIR$/.idea/LOCATION-BASED-ADS-OFFER.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_personal_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/ad.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/geofence.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt " beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_geofencing.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_user.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/database.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/db_connection.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/geofence_logic.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +217,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733514427956</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="created a signup methods for both types of users.">
+      <option name="closed" value="true" />
+      <created>1733517419993</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733517419993</updated>
+    </task>
+    <task id="LOCAL-00008" summary="created a signup methods for both types of users.">
+      <option name="closed" value="true" />
+      <created>1733517452439</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733517452439</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +251,8 @@
     <MESSAGE value="defined the file structure of the project" />
     <MESSAGE value="created a geofence class and ad class" />
     <MESSAGE value="here i have defined the gefence logic and implemented basic gui for the login for business and personal user" />
-    <option name="LAST_COMMIT_MESSAGE" value="here i have defined the gefence logic and implemented basic gui for the login for business and personal user" />
+    <MESSAGE value="created a signup methods for both types of users." />
+    <MESSAGE value="added automatic location detection of personal user" />
+    <option name="LAST_COMMIT_MESSAGE" value="added automatic location detection of personal user" />
   </component>
 </project>

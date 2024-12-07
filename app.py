@@ -9,6 +9,9 @@ import threading
 import time
 from random import uniform
 
+import geocoder
+
+
 
 
 class LocationBasedAdsApp:
@@ -141,20 +144,31 @@ class LocationBasedAdsApp:
         self.clear_window()
         tk.Label(self.root, text="Personal User Dashboard", font=("Arial", 16)).pack(pady=10)
 
-        # Enter location manually
-        tk.Label(self.root, text="Enter Your Current Location (latitude, longitude):").pack(pady=5)
-        self.latitude_entry = tk.Entry(self.root)
+        # Location Mode: Automatic or Manual
+        tk.Label(self.root, text="Select Location Mode:").pack(pady=5)
+        self.location_mode_var = tk.StringVar(value="automatic")
+        tk.Radiobutton(self.root, text="Automatic", variable=self.location_mode_var, value="automatic",
+                       command=self.handle_location_mode).pack()
+        tk.Radiobutton(self.root, text="Manual", variable=self.location_mode_var, value="manual",
+                       command=self.handle_location_mode).pack()
+
+        # Manual Location Input
+        self.manual_location_frame = tk.Frame(self.root)
+        tk.Label(self.manual_location_frame, text="Enter Your Current Location (latitude, longitude):").pack(pady=5)
+        self.latitude_entry = tk.Entry(self.manual_location_frame)
         self.latitude_entry.pack(pady=5)
-        self.longitude_entry = tk.Entry(self.root)
+        self.longitude_entry = tk.Entry(self.manual_location_frame)
         self.longitude_entry.pack(pady=5)
+        self.manual_location_frame.pack(pady=10)
 
+        # Check Offers Button
         tk.Button(self.root, text="Check for Offers", command=self.check_for_offers).pack(pady=10)
-
-        # Simulate user movement
-        tk.Button(self.root, text="Simulate Movement", command=self.simulate_user_movement).pack(pady=5)
 
         self.offers_text = tk.Text(self.root, width=50, height=15)
         self.offers_text.pack(pady=5)
+
+        # Automatically fetch location on start
+        self.handle_location_mode()
 
     def add_geofence_and_ad(self):
         """
@@ -249,10 +263,9 @@ class LocationBasedAdsApp:
 
     def check_for_offers(self):
         """
-        Check for relevant ads based on the user's location using geofencing logic.
+        Check for relevant ads based on the user's selected location.
         """
         try:
-            # Get user input for current location
             user_lat = float(self.latitude_entry.get())
             user_lon = float(self.longitude_entry.get())
             user_location = (user_lat, user_lon)
@@ -261,6 +274,7 @@ class LocationBasedAdsApp:
             ads = get_relevant_ads(user_location)
             self.offers_text.delete("1.0", tk.END)  # Clear previous offers
 
+            # Display new ads
             if ads:
                 for ad in ads:
                     self.offers_text.insert(tk.END, f"Ad Title: {ad['title']}\nDescription: {ad['description']}\n\n")
@@ -284,33 +298,88 @@ class LocationBasedAdsApp:
 
     def simulate_user_movement(self):
         """
-        Simulate a user moving through random locations.
+        Simulate a user moving through random locations and display relevant ads.
         """
+        self.simulation_active = True
         tk.Label(self.root, text="Simulated Movement Active", fg="blue").pack(pady=5)
+        last_ads = []  # Keep track of the last set of ads
 
         def move():
-            while True:
+            nonlocal last_ads
+            while self.simulation_active:
                 # Randomly generate new user location
-                user_lat = uniform(40.7000, 40.8000)  # Latitude range near NYC
-                user_lon = uniform(-74.1000, -73.9000)  # Longitude range near NYC
+                user_lat = uniform(40.7000, 40.7500)  # Adjust range to cover geofences
+                user_lon = uniform(-74.0200, -73.9300)  # Adjust range to cover geofences
                 user_location = (user_lat, user_lon)
 
                 # Fetch relevant ads
                 ads = get_relevant_ads(user_location)
-                self.offers_text.delete("1.0", tk.END)  # Clear previous offers
 
-                if ads:
-                    for ad in ads:
-                        self.offers_text.insert(tk.END,
-                                                f"Ad Title: {ad['title']}\nDescription: {ad['description']}\n\n")
-                else:
-                    self.offers_text.insert(tk.END, "No offers available in your area.\n")
+                # Only update ads if they are different from the last set
+                if ads != last_ads:
+                    last_ads = ads
 
-                # Wait for 5 seconds before the next movement
+                    # Clear previous ads from the text widget
+                    self.offers_text.delete("1.0", tk.END)
+
+                    # Display new ads
+                    if ads:
+                        for ad in ads:
+                            self.offers_text.insert(tk.END,
+                                                    f"Ad Title: {ad['title']}\nDescription: {ad['description']}\n\n")
+                    else:
+                        self.offers_text.insert(tk.END, "No offers available in your area.\n")
+
+                # Wait for a few seconds before simulating the next location
                 time.sleep(5)
 
-        # Run movement simulation in a separate thread
+        # Run the simulation in a separate thread
         threading.Thread(target=move, daemon=True).start()
+
+    def stop_simulation(self):
+        """
+        Stop the simulation of user movement.
+        """
+        self.simulation_active = False
+        tk.Label(self.root, text="Simulation Stopped", fg="red").pack(pady=5)
+
+    def get_current_location(self):
+        """
+        Fetch the user's current location using geocoder.
+        Returns (latitude, longitude) if successful, or None if not.
+        """
+        try:
+            g = geocoder.ip('me')  # Get location from IP address
+            if g.ok:
+                return g.latlng
+            else:
+                return None
+        except Exception as e:
+            print(f"Error fetching location: {e}")
+            return None
+
+    def handle_location_mode(self):
+        """
+        Handle the selected location mode: automatic or manual.
+        """
+        if self.location_mode_var.get() == "automatic":
+            # Hide manual location input
+            self.manual_location_frame.pack_forget()
+
+            # Fetch current location
+            current_location = self.get_current_location()
+            if current_location:
+                self.latitude_entry.delete(0, tk.END)
+                self.longitude_entry.delete(0, tk.END)
+                self.latitude_entry.insert(0, str(current_location[0]))
+                self.longitude_entry.insert(0, str(current_location[1]))
+                self.check_for_offers()
+            else:
+                messagebox.showerror("Error", "Unable to fetch current location.")
+        else:
+            # Show manual location input
+            self.manual_location_frame.pack(pady=10)
+
 
 if __name__ == "__main__":
     app = LocationBasedAdsApp()

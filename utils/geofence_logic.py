@@ -40,7 +40,9 @@ def get_relevant_ads(user_location):
         ad_description = geofence[4]
 
         if is_within_geofence(user_location, geofence_location, radius_km):
+            print(f"Ad '{ad_title}' is relevant.")
             relevant_ads.append({"title": ad_title, "description": ad_description})
 
-    conn.close()
+    if not relevant_ads:
+        print("No relevant ads found for this location.")
     return relevant_ads
