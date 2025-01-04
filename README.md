@@ -24,7 +24,7 @@ Below are snapshots of the platform's functionalities:
 1. **Account Creation/Login Tab**  
    - Users can log in as a business owner or customer by entering their email and password.  
 
-   ![Account Creation/Login Tab](C:\Users\91998\Desktop\Fall 24\EMT 551\project2\img.jpg) <!-- Replace with your image path -->
+   ![Account Creation/Login Tab](https://github.com/komal803/LOCATION-BASED-ADS-OFFER/blob/main/business.jpg) <!-- Replace with your image path -->
 
 2. **Add Geofence and Ad Tab**  
    - Users can define geofences by entering:
