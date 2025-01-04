@@ -24,7 +24,7 @@ Below are snapshots of the platform's functionalities:
 1. **Account Creation/Login Tab**  
    - Users can log in as a business owner or customer by entering their email and password.  
 
-   ![Account Creation/Login Tab](assets/img/account-login.jpg) <!-- Replace with your image path -->
+   ![Account Creation/Login Tab](geofence.jpg) <!-- Replace with your image path -->
 
 2. **Add Geofence and Ad Tab**  
    - Users can define geofences by entering:
@@ -81,5 +81,4 @@ The platform is built on the following key technologies:
 - **AI Recommendations**: Implement AI for delivering personalized, targeted ads.  
 - **Dynamic Geofencing**: Adapt geofences dynamically based on user density and events.
 
-## Acknowledgements  
-We express our gratitude to **Professor Dr. Joseph Helsing** for his invaluable guidance throughout this project. We also acknowledge Google for providing additional support through its services and tools.
+
