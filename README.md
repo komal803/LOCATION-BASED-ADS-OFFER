@@ -33,7 +33,7 @@ Below are snapshots of the platform's functionalities:
      - Ad title and description.  
    - Two buttons at the bottom allow saving the geofence and ad or returning to the dashboard.  
 
-   ![Add Geofence and Ad Tab](assets/img/add-geofence.jpg) <!-- Replace with your image path -->
+   ![Add Geofence and Ad Tab](https://github.com/komal803/LOCATION-BASED-ADS-OFFER/blob/main/geofence.jpg) <!-- Replace with your image path -->
 
 3. **Business Dashboard Tab**  
    - Business owners can access three primary functionalities:
@@ -42,7 +42,7 @@ Below are snapshots of the platform's functionalities:
      - **View Analytics**.  
    - A "Logout" button is also available.  
 
-   ![Business Dashboard Tab](assets/img/business-dashboard.jpg) <!-- Replace with your image path -->
+   ![Business Dashboard Tab](https://github.com/komal803/LOCATION-BASED-ADS-OFFER/blob/main/business.jpg) <!-- Replace with your image path -->
 
 ## Analytics  
 The platform provides insightful bar graphs for analytics:
@@ -51,13 +51,13 @@ The platform provides insightful bar graphs for analytics:
    - **X-axis**: Geofence IDs.  
    - **Y-axis**: Usage count.  
 
-   ![Geofence Usage Statistics](assets/img/geofence-usage.jpg) <!-- Replace with your image path -->
+   ![Geofence Usage Statistics](https://github.com/komal803/LOCATION-BASED-ADS-OFFER/blob/main/geofence_statistics.jpg) <!-- Replace with your image path -->
 
 2. **Ad Views**  
    - **X-axis**: Ad categories (e.g., Manhattan Fine Dining, Hoboken Coffee Special, Metropark Deals).  
    - **Y-axis**: Number of views.  
 
-   ![Ad Views](assets/img/ad-views.jpg) <!-- Replace with your image path -->
+   ![Ad Views](https://github.com/komal803/LOCATION-BASED-ADS-OFFER/blob/main/add_views.jpg) <!-- Replace with your image path -->
 
 ## Technologies Used  
 - **Programming Language**: Python  
